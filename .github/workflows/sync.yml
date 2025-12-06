@@ -1,0 +1,36 @@
+name: Sync to Team Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout personal repo
+        uses: actions/checkout@v3
+        
+      - name: Checkout team repo
+        uses: actions/checkout@v3
+        with:
+          repository: sessac-codingstudy/Isak_CodingTest
+          token: ${{ secrets.TEAM_REPO_TOKEN }}
+          path: team-repo
+          
+      - name: Sync files
+        run: |
+          rsync -av --exclude='.git' --exclude='team-repo' ./ team-repo/
+          
+      - name: Commit and push
+        run: |
+          cd team-repo
+          git config user.name "Auto Sync"
+          git config user.email "auto@sync.com"
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "Sync: $(date '+%Y-%m-%d %H:%M:%S')"
+            git push
+          fi
+
