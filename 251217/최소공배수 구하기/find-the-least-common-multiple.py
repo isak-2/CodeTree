@@ -10,7 +10,7 @@ else:
             gcd = i
 
     
-    for i in range(1,gcd):
+    for i in range(1,m):
         if m == gcd * i:
             lcm_s1 = i 
         if n == gcd * i:
