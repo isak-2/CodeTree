@@ -8,8 +8,13 @@ def swap(a,b):
     else:
         big = b + 25
         small = a * 2
+    
+    if big < small:
+        big, small = small, big 
+
     return small, big
 
 small, big = swap(a,b)
+
 print(small, big)
 
